@@ -16,7 +16,7 @@ class Program
 {
     static void Main()
     {
-        Product[] product = new Product[];
+        Product[] products = new Product[100];
         int count = 0;
 
         while (true)
@@ -54,10 +54,22 @@ class Program
                 count++;
 
                 Console.WriteLine("Product added successfully!");
-               // commit test
-               //commit test 2
-               // commit test 3
-               // commit test 4
+               
+            }
+
+             else if (choice == "2")
+                {
+                    if (count == 0)
+                {
+                    Console.WriteLine("No products available at the moment");
+                }
+                else
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        products[i].DisplayProduct();
+                    }
+                } 
 
                
             }
