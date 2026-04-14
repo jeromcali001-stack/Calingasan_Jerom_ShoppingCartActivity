@@ -24,6 +24,8 @@ class Program
     {
         Product[] products = new Product[100];
         int count = 0;
+
+      
         products[count++] = new Product { Id = 1, Name = "Keyboard", Price = 500 };
         products[count++] = new Product { Id = 2, Name = "Mouse", Price = 300 };
         products[count++] = new Product { Id = 3, Name = "Monitor", Price = 7000 };
@@ -40,6 +42,7 @@ class Program
 
             string choice = Console.ReadLine();
 
+            
             if (choice == "1")
             {
                 if (count >= products.Length)
@@ -48,10 +51,28 @@ class Program
                     continue;
                 }
 
-                Product p = new Product();
-
                 Console.Write("Enter ID: ");
-                p.Id = int.Parse(Console.ReadLine());
+                int newId = int.Parse(Console.ReadLine());
+
+                bool exists = false;
+
+                for (int i = 0; i < count; i++)
+                {
+                    if (products[i].Id == newId)
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (exists)
+                {
+                    Console.WriteLine("ID already exists! Try a different ID.");
+                    continue;
+                }
+
+                Product p = new Product();
+                p.Id = newId;
 
                 Console.Write("Enter Name: ");
                 p.Name = Console.ReadLine();
@@ -59,14 +80,13 @@ class Program
                 Console.Write("Enter Price: ");
                 p.Price = double.Parse(Console.ReadLine());
 
-                // ❌ removed stock input → default is 10
-
                 products[count] = p;
                 count++;
 
                 Console.WriteLine("Product added successfully!");
             }
 
+            
             else if (choice == "2")
             {
                 if (count == 0)
@@ -82,11 +102,13 @@ class Program
                 }
             }
 
+        
             else if (choice == "3")
             {
                 break;
             }
 
+         
             else if (choice == "4")
             {
                 int totalItems = 0;
@@ -99,6 +121,7 @@ class Program
                 Console.WriteLine("Total Items: " + totalItems);
             }
 
+            
             else if (choice == "5")
             {
                 Console.Write("Enter Product ID: ");
@@ -112,7 +135,7 @@ class Program
                     {
                         found = true;
 
-                        Console.WriteLine("Current Stock: " + products[i].Stock); 
+                        Console.WriteLine("Current Stock: " + products[i].Stock);
 
                         if (products[i].IsLowStock())
                         {
