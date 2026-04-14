@@ -38,6 +38,7 @@ class Program
             Console.WriteLine("3. Exit");
             Console.WriteLine("4. Total Items");
             Console.WriteLine("5. Check Low Stock");
+            Console.WriteLine("6. Remove Stock");
             Console.Write("Choose: ");
 
             string choice = Console.ReadLine();
@@ -156,6 +157,51 @@ class Program
                 }
             }
 
+
+            else if (choice == "6")
+{
+                Console.Write("Enter Product ID: ");
+                int id = int.Parse(Console.ReadLine());
+
+                bool found = false;
+
+                for (int i = 0; i < count; i++)
+                {
+                    if (products[i].Id == id)
+                    {
+                        found = true;
+
+                        Console.WriteLine($"Product: {products[i].Name}");
+                        Console.WriteLine($"Current Stock: {products[i].Stock}");
+
+                        Console.Write("How many to deduct? ");
+                        int qty = int.Parse(Console.ReadLine());
+
+                        
+                        if (qty <= 0)
+                        {
+                            Console.WriteLine("Invalid quantity");
+                        }
+                        else if (qty > products[i].Stock)
+                        {
+                            Console.WriteLine("Not enough stock");
+                        }
+                        else
+                        {
+                            products[i].Stock -= qty;
+                            Console.WriteLine("Stock updated successfully!");
+                            Console.WriteLine($"New Stock: {products[i].Stock}");
+                        }
+
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("Product not found.");
+                }
+            }
             else
             {
                 Console.WriteLine("Invalid Choice");
