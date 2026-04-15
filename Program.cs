@@ -18,6 +18,15 @@ class Product
     }
 }
 
+class CartItem
+{
+    public int Id;
+    public string Name;
+    public double Price;
+    public int Quantity;
+    public double SubTotal;
+}
+
 class Program
 {
     static void Main()
@@ -25,7 +34,9 @@ class Program
         Product[] products = new Product[100];
         int count = 0;
 
-      
+        CartItem[] cart = new CartItem[100];
+        int cartCount = 0;
+
         products[count++] = new Product { Id = 1, Name = "Keyboard", Price = 500 };
         products[count++] = new Product { Id = 2, Name = "Mouse", Price = 300 };
         products[count++] = new Product { Id = 3, Name = "Monitor", Price = 7000 };
@@ -39,11 +50,11 @@ class Program
             Console.WriteLine("4. Total Items");
             Console.WriteLine("5. Check Low Stock");
             Console.WriteLine("6. Remove Stock");
+            Console.WriteLine("7. Shopping Cart");
             Console.Write("Choose: ");
 
             string choice = Console.ReadLine();
 
-            
             if (choice == "1")
             {
                 if (count >= products.Length)
@@ -86,8 +97,6 @@ class Program
 
                 Console.WriteLine("Product added successfully!");
             }
-
-            
             else if (choice == "2")
             {
                 if (count == 0)
@@ -102,14 +111,10 @@ class Program
                     }
                 }
             }
-
-        
             else if (choice == "3")
             {
                 break;
             }
-
-         
             else if (choice == "4")
             {
                 int totalItems = 0;
@@ -121,8 +126,6 @@ class Program
 
                 Console.WriteLine("Total Items: " + totalItems);
             }
-
-            
             else if (choice == "5")
             {
                 Console.Write("Enter Product ID: ");
@@ -156,10 +159,8 @@ class Program
                     Console.WriteLine("Product not found.");
                 }
             }
-
-
             else if (choice == "6")
-{
+            {
                 Console.Write("Enter Product ID: ");
                 int id = int.Parse(Console.ReadLine());
 
@@ -177,7 +178,6 @@ class Program
                         Console.Write("How many to deduct? ");
                         int qty = int.Parse(Console.ReadLine());
 
-                        
                         if (qty <= 0)
                         {
                             Console.WriteLine("Invalid quantity");
@@ -191,6 +191,77 @@ class Program
                             products[i].Stock -= qty;
                             Console.WriteLine("Stock updated successfully!");
                             Console.WriteLine($"New Stock: {products[i].Stock}");
+                        }
+
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("Product not found.");
+                }
+            }
+            else if (choice == "7")
+            {
+                Console.Write("Enter Product ID: ");
+                int id = int.Parse(Console.ReadLine());
+
+                bool found = false;
+
+                for (int i = 0; i < count; i++)
+                {
+                    if (products[i].Id == id)
+                    {
+                        found = true;
+
+                        Console.WriteLine($"Product: {products[i].Name}");
+                        Console.WriteLine($"Price: {products[i].Price}");
+                        Console.WriteLine($"Stock: {products[i].Stock}");
+
+                        Console.Write("Enter quantity to buy: ");
+                        int qty = int.Parse(Console.ReadLine());
+
+                        if (qty <= 0)
+                        {
+                            Console.WriteLine("Invalid quantity");
+                        }
+                        else if (qty > products[i].Stock)
+                        {
+                            Console.WriteLine("Not enough stock");
+                        }
+                        else
+                        {
+                            bool inCart = false;
+
+                            for (int j = 0; j < cartCount; j++)
+                            {
+                                if (cart[j].Id == products[i].Id)
+                                {
+                                    cart[j].Quantity += qty;
+                                    cart[j].SubTotal += products[i].Price * qty;
+                                    inCart = true;
+                                    break;
+                                }
+                            }
+
+                            if (!inCart)
+                            {
+                                cart[cartCount] = new CartItem
+                                {
+                                    Id = products[i].Id,
+                                    Name = products[i].Name,
+                                    Price = products[i].Price,
+                                    Quantity = qty,
+                                    SubTotal = products[i].Price * qty
+                                };
+
+                                cartCount++;
+                            }
+
+                            products[i].Stock -= qty;
+
+                            Console.WriteLine("Added to cart!");
                         }
 
                         break;
