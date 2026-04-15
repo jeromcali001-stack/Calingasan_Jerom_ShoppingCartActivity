@@ -205,6 +205,17 @@ class Program
             }
             else if (choice == "7")
             {
+                if (count == 0)
+                {
+                    Console.WriteLine("No products available at the moment");
+                }
+                else
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        products[i].DisplayProduct();
+                    }
+                }
                 Console.Write("Enter Product ID: ");
                 int id = int.Parse(Console.ReadLine());
 
