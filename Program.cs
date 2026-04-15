@@ -51,6 +51,7 @@ class Program
             Console.WriteLine("5. Check Low Stock");
             Console.WriteLine("6. Remove Stock");
             Console.WriteLine("7. Shopping Cart");
+            Console.WriteLine("8. Checkout Shopping Cart");
             Console.Write("Choose: ");
 
             string choice = Console.ReadLine();
@@ -271,6 +272,51 @@ class Program
                 if (!found)
                 {
                     Console.WriteLine("Product not found.");
+                }
+            }
+            else if (choice == "8")
+            {
+                if (cartCount == 0)
+                {
+                    Console.WriteLine("Cart is empty.");
+                }
+                else
+                {
+                    double grandTotal = 0;
+
+                    Console.WriteLine("\n===== RECEIPT =====");
+
+                    for (int i = 0; i < cartCount; i++)
+                    {
+                        Console.WriteLine($"{cart[i].Name} x{cart[i].Quantity} = {cart[i].SubTotal}");
+                        grandTotal += cart[i].SubTotal;
+                    }
+
+                    Console.WriteLine("-------------------");
+                    Console.WriteLine("Grand Total: " + grandTotal);
+
+                    double discount = 0;
+
+                    if (grandTotal >= 5000)
+                    {
+                        discount = grandTotal * 0.10;
+                        Console.WriteLine("Discount (10%): " + discount);
+                    }
+
+                    double finalTotal = grandTotal - discount;
+
+                    Console.WriteLine("Final Total: " + finalTotal);
+
+                    Console.WriteLine("\n===== UPDATED STOCK =====");
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        Console.WriteLine($"{products[i].Name} - Stock: {products[i].Stock}");
+                    }
+
+                    cartCount = 0;
+
+                    Console.WriteLine("Checkout complete!");
                 }
             }
             else
