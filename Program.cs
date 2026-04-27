@@ -85,23 +85,22 @@ class Program
                 for (int i = 0; i < count; i++)
                 {
                     if (products[i].Id == id)
-                    {
-                        bool found = true;
+                {
+                    found = true;
 
-                        Console.Write($"{products[i].Stock}");
-                    }
+                    Console.WriteLine("Current Stock: " + products[i].Stock);
 
                     if (products[i].IsLowStock())
                     {
                         Console.WriteLine("Product is Low on stock");
                     }
-
                     else
                     {
-                     Console.Write("Stock sufficient");       
+                        Console.WriteLine("Stock sufficient");
                     }
 
-
+                    break;
+                }
                     
                 }
             }
