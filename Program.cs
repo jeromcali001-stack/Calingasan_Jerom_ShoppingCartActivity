@@ -18,6 +18,8 @@ class Program
         {
             Console.WriteLine("\n1. Add Product");
             Console.WriteLine("2. View Products");
+            Console.WriteLine("3. Total Items");
+            Console.WriteLine("4. Stock Check");
             Console.Write("Choose: ");
 
             string choice = Console.ReadLine();
@@ -31,7 +33,8 @@ class Program
                 }
 
                 Console.Write("Enter ID: ");
-                int id = int.Parse(Console.ReadLine());
+                int id;
+                int.TryParse(Console.ReadLine(), out id);
 
                 Console.Write("Enter Name: ");
                 string name = Console.ReadLine();
@@ -62,6 +65,52 @@ class Program
                     }
                 }
             }
+            else if (choice == "3")
+            {
+                int totalItems = 0;
+                for (int i = 0; i < count; i++)
+                {
+                    totalItems += products[i].Stock;
+                }
+                Console.Write("Total Items: " + totalItems);
+
+            }
+            else if (choice == "4")
+            {
+                Console.WriteLine("Enter ID to check: ");
+                int id;
+                int.TryParse(Console.ReadLine(), out id);
+
+                bool found = false;
+                for (int i = 0; i < count; i++)
+                {
+                    if (products[i].Id == id)
+                    {
+                        bool found = true;
+
+                        Console.Write($"{products[i].Stock}");
+                    }
+
+                    if (products[i].IsLowStock())
+                    {
+                        Console.WriteLine("Product is Low on stock");
+                    }
+
+                    else
+                    {
+                     Console.Write("Stock sufficient");       
+                    }
+
+
+                    
+                }
+            }
+
+
+
+
+
+
         }
     }
 }
