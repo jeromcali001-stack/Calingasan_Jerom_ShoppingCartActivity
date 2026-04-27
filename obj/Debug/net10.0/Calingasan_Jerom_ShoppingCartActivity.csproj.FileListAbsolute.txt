@@ -1,0 +1,15 @@
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\bin\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.exe
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\bin\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.deps.json
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\bin\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.runtimeconfig.json
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\bin\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.dll
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\bin\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.pdb
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.AssemblyInfoInputs.cache
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.AssemblyInfo.cs
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.csproj.CoreCompileInputs.cache
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.sourcelink.json
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.dll
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\refint\Calingasan_Jerom_ShoppingCartActivity.dll
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.pdb
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\Calingasan_Jerom_ShoppingCartActivity.genruntimeconfig.cache
+C:\Users\djcal\Desktop\Calingasan_Jerom_ShoppingCartActivity\obj\Debug\net10.0\ref\Calingasan_Jerom_ShoppingCartActivity.dll
