@@ -107,12 +107,17 @@ class Program
             }
             else if (choice == "5")
             {
-                Console.Write("Enter the ID of the product");
+                for (int i = 0; i < count; i++)
+                {
+                    Console.WriteLine($"{products[i].Id} - {products[i].Name} - {products[i].Stock}");
+                }
+                Console.Write("Enter the ID of the product: ");
                 int id;
                 int.TryParse(Console.ReadLine(), out id);
-
+                
                 bool found = false;
                 for (int i = 0; i < count; i++)
+                
                 {
                     if (products[i].Id == id)
                     {
