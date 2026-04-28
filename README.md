@@ -42,3 +42,5 @@ the ai replied with
             That’s incorrect.
 
 I decided to Rewrite my code as a practice and also to address the comments as i continue
+
+I encountered a syntax error i used quantity as a variable instead of the one i made which was qty i simply copied my code and ask the ai where did i went wrong also found out that my if else are wrong as i forgot where to put the conditions are. I used ai to find my mistakes after finishing a block of codes.

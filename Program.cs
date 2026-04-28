@@ -20,6 +20,7 @@ class Program
             Console.WriteLine("2. View Products");
             Console.WriteLine("3. Total Items");
             Console.WriteLine("4. Stock Check");
+            Console.WriteLine("5. Deduct Stock");
             Console.Write("Choose: ");
 
             string choice = Console.ReadLine();
@@ -117,46 +118,39 @@ class Program
                     {
                         found = true;
                        
-                }
-                    
-
-                Console.WriteLine({products[i].Name + {products}[i].Stock});
-                Console.Write("how many would you like to deduct?");
-                int qty;
-                int.TryParse(Console.ReadLine(), out qty);
-
-                for (int i = 0; i < count; i++)
-                {
-                    if 
-                    {   
-                        (quantity > products[i].Stock)
-                        Console.Write("Not Enough Stock");
-                        break;
-                    }
-
-                    else if 
-                    {   
-                        (quantity <= 0)
-                        Console.Write("Invalid Amount");
-                    }
-                    else
-                    {
-                        (quantity -= products[i].Stock);
-                        Console.Write("Stock Updated");
                         Console.WriteLine($"{products[i].Name} - {products[i].Stock}");
-                        
+                        Console.Write("how many would you like to deduct?");
+                        int qty;
+                        int.TryParse(Console.ReadLine(), out qty);
+
+                        if (qty > products[i].Stock)
+                        {   
+                            
+                            Console.Write("Not Enough Stock");
+                            break;
+                        }
+
+                        else if (qty <= 0)
+                        {   
+                            
+                            Console.Write("Invalid Amount");
+                        }
+                        else 
+                        {
+                            products[i].Stock -= qty;
+                            Console.Write("Stock Updated");
+                            Console.WriteLine($"{products[i].Name} - {products[i].Stock}");
+                            
+                        }
                     }
+                     
                 }
-                
-
-                
+                    if (!found)
+                {
+                    Console.WriteLine("Product not found");
+                }
             }
-
-
-
-
-
-
+            
         }
     }
 }
