@@ -100,9 +100,56 @@ class Program
                     }
 
                     break;
-                }
+                }   
                     
                 }
+            }
+            else if (choice == "5")
+            {
+                Console.Write("Enter the ID of the product");
+                int id;
+                int.TryParse(Console.ReadLine(), out id);
+
+                bool found = false;
+                for (int i = 0; i < count; i++)
+                {
+                    if (products[i].Id == id)
+                    {
+                        found = true;
+                       
+                }
+                    
+
+                Console.WriteLine({products[i].Name + {products}[i].Stock});
+                Console.Write("how many would you like to deduct?");
+                int qty;
+                int.TryParse(Console.ReadLine(), out qty);
+
+                for (int i = 0; i < count; i++)
+                {
+                    if 
+                    {   
+                        (quantity > products[i].Stock)
+                        Console.Write("Not Enough Stock");
+                        break;
+                    }
+
+                    else if 
+                    {   
+                        (quantity <= 0)
+                        Console.Write("Invalid Amount");
+                    }
+                    else
+                    {
+                        (quantity -= products[i].Stock);
+                        Console.Write("Stock Updated");
+                        Console.WriteLine($"{products[i].Name} - {products[i].Stock}");
+                        
+                    }
+                }
+                
+
+                
             }
 
 
