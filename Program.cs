@@ -172,8 +172,25 @@ class Program
                 if (!found)
                     Console.WriteLine("No product found.");
             }
-                    
             else if (choice == "7")
+                {
+                    Console.Write("Enter category to search: ");
+                    string search = Console.ReadLine().ToLower();
+                    bool found = false;
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (products[i].Category.ToLower().Contains(search))
+                        {
+                            Console.WriteLine($"{products[i].Id} - {products[i].Name} - PHP {products[i].Price} - Stock: {products[i].Stock}");
+                            found = true;
+                        }
+                    }
+
+                    if (!found)
+                        Console.WriteLine("No products found in that category.");
+                }       
+            else if (choice == "8")
             {
                 Console.WriteLine("Returning to main menu...\n");
                 break;
@@ -199,7 +216,7 @@ class Program
                 Console.WriteLine("3. Remove from Cart");
                 Console.WriteLine("4. Checkout");
                 Console.WriteLine("5. Clear Cart");
-                Console.WriteLine("6. Back to Main Menu");
+                Console.WriteLine("6. Category Search");
                 Console.Write("Choose: ");
 
                 string cartChoice = Console.ReadLine();
@@ -326,15 +343,50 @@ class Program
                 {
                     double total = 0;
 
-                    for (int i = 0; i < cartCount; i++)
+                for (int i = 0; i < cartCount; i++)
                     {
                         Console.WriteLine($"{cart[i].Name} x{cart[i].Quantity} = {cart[i].SubTotal}");
                         total += cart[i].SubTotal;
                     }
 
-                    Console.WriteLine("Final Total: " + total);
-                    cartCount = 0;
-                    Console.WriteLine("Checkout complete!");
+                    Console.WriteLine("Grand Total: PHP " + total);
+
+                    double discount = 0;
+
+                    if (total >= 5000)
+                    {
+                        discount = total * 0.10;
+                        Console.WriteLine("Discount (10%): PHP " + discount);
+                    }
+
+                    double finalTotal = total - discount;
+
+                    Console.WriteLine("Final Total: PHP " + finalTotal);
+
+                    double payment;
+
+                    while (true)
+                    {
+                        Console.Write("Enter Payment: ");
+                        bool valid = double.TryParse(Console.ReadLine(), out payment);
+
+                        if (!valid)
+                        {
+                            Console.WriteLine("Invalid input.");
+                        }
+                        else if (payment < finalTotal)
+                        {
+                            Console.WriteLine("Insufficient payment.");
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    double change = payment - finalTotal;
+
+                    Console.WriteLine("Change: PHP " + change);
                 }
 
                 else if (cartChoice == "5")
@@ -357,6 +409,24 @@ class Program
 
                 else if (cartChoice == "6")
                 {
+                    Console.Write("Enter category to search: ");
+                    string search = Console.ReadLine().ToLower();
+                    bool found = false;
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (products[i].Category.ToLower().Contains(search))
+                        {
+                            Console.WriteLine($"{products[i].Id} - {products[i].Name} - PHP {products[i].Price} - Stock: {products[i].Stock}");
+                            found = true;
+                        }
+                    }
+
+                    if (!found)
+                        Console.WriteLine("No products found in that category.");
+                }
+                else if (cartChoice == "7")
+                {
                     Console.WriteLine("Returning to main menu...");
                     break;
                 }
@@ -364,13 +434,10 @@ class Program
                 else
                 {
                     Console.WriteLine("Invalid choice");
-                }   
-    
-            
-    
-                
+                }    
             }
     }
+    
     else if (choose == "3")
                 {
                     Console.WriteLine("Thank you for visiting Cali-Store!");
@@ -379,4 +446,5 @@ class Program
     }
     }
 }
+
 
