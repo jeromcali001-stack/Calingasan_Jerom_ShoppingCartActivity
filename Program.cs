@@ -151,7 +151,7 @@ class Program
 
             else if (choice == "6")
             {
-                Console.WriteLine("Thank you!");
+                Console.WriteLine("Returning to main menu...");
                 break;
             }
 
@@ -306,11 +306,30 @@ class Program
                     Console.WriteLine("Final Total: " + total);
                     cartCount = 0;
                     Console.WriteLine("Checkout complete!");
-             }   
-        
+                }
+
+                else if (cartChoice == "5")
+                {
+                    Console.WriteLine("Returning to main menu...");
+                    break;
+                }
+
+                else
+                {
+                    Console.WriteLine("Invalid choice");
+                }   
+    
+            
+    
+                
+            }
+    }
+    else if (choose == "3")
+                {
+                    Console.WriteLine("Thank you for visiting Cali-Store!");
+                    break;
+                }
     }
     }
-        }
-    }
-    }
+}
 
