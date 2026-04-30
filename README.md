@@ -90,4 +90,61 @@ if (Console.ReadLine().ToLower() != "y")
 ❗ Problem:
 continue only affects current loop, not properly exiting checkout flow
 
-so i followed its advise and revised it from what it said
+so i followed its advise and revised it from what it said.
+
+Note: Sir if your reading this I may haved put some commits for part 2 in main but those commits are the ones I did when i decided to rewrite the whole code for practice for the exam and for me to get a better understanding as i may forgot where i left off.
+
+I decided to run it again for another checking and it found this 
+I reviewed your whole program — it’s actually very solid now (you already fixed a lot of the earlier issues). But there are still a few important bugs / missing logic problems you should fix before calling it done.
+
+🚨 1. CRITICAL BUG: CHECKOUT “return” breaks EVERYTHING
+❌ Your code:
+if (Console.ReadLine().ToLower() != "y")
+{
+    Console.WriteLine("Checkout cancelled.");
+    return;
+}
+⚠️ Problem:
+return; exits the ENTIRE program (Main)
+So if user cancels checkout → game over (store closes)
+✅ FIX (correct behavior)
+
+Replace with:
+
+if (Console.ReadLine().ToLower() != "y")
+{
+    Console.WriteLine("Checkout cancelled.");
+    break;
+}
+
+✔ This only exits the CART MENU, not the whole program
+
+🚨 2. BUG: RECEIPT NUMBER NOT INCREMENTED
+
+You use:
+
+Console.WriteLine("Receipt No: " + receiptNumber.ToString("D4"));
+❗ Problem:
+You never increment receiptNumber
+Every receipt will show same number
+✅ FIX (add this AFTER checkout success):
+receiptNumber++;
+
+Place it after:
+
+Console.WriteLine("Change: PHP " + change);
+🚨 3. CHECKOUT DOES NOT CLEAR CART (missing feature)
+
+After successful payment, you SHOULD reset cart:
+
+❗ Missing:
+cartCount = 0;
+✅ ADD THIS:
+cartCount = 0;
+
+Put it after checkout success.
+
+so i revised my code again based on the ai suggested also addressed the out of stock comment from previous part and updated it to my cart system
+
+have an error with the date time and ai said simply to change the public date to datetime simple fix
+manual debugging and checking of validation i discovered that i didnt add the stock option when adding a product it defaults to 100 fixed it

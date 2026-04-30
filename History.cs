@@ -1,7 +1,7 @@
 class History
 {
     public int ReceiptNumber;
-    public string Date;
+    public DateTime Date;
     public double FinalTotal;
 } 
    
