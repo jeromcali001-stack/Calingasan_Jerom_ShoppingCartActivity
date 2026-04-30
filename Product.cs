@@ -3,7 +3,7 @@ class Product
     public int Id;
     public string Name;
     public double Price;
-    public int Stock = 10;
+    public int Stock = 100;
     public string Category;
 
     public void DisplayProduct()

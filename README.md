@@ -53,4 +53,41 @@ i noticed that i havent used much ai like before and commits everytime i remembe
 
 I asked the ai how to do search and as i skimmed to its code i realized it just uses .ToLower to search and just used for loop to search and bool to match. the .Contains part was taught by ai so that even if the spelling is incomplete it still can search as long as it matches some letter
 
-test commits
+I asked ai on how do I make an receipt and it helped me part by part like first add a variable some parts were familiar mostly the datetime as it was also used in our python program except it is much easier 
+Had trouble running the receipt asked ai for help and finally got told that i just havent saved my cs file which was the history 
+
+i found a error in validation that when i put letters on price it still accepts it the ai explained that it is an error in validation and that the code just make the value to 0 i used ai to help me validate it properly and used its code which is if (double.TryParse(input, out price) && price > 0) to fix my error.
+
+update i also found out duplicate items
+I fixed it it was similar to the price so much ai isnt needed just trial and error and some suggestion from the compiler
+
+I added a bunch of y/n to every if else possible and copied the whole code to see what possible bug or crash i might have missed the ai replied with this 
+1. POSSIBLE CRASH: TryParse not validated
+
+You used:
+
+int.TryParse(Console.ReadLine(), out id);
+❗ Problem:
+
+If invalid input → id becomes 0 silently
+
+(Not crash, but logic bug)
+
+Better:
+
+if (!int.TryParse(Console.ReadLine(), out id))
+{
+    Console.WriteLine("Invalid ID");
+    continue;
+}
+2. CHECKOUT “Do you wish to continue?” LOGIC IS WRONG
+❌ Your code:
+if (Console.ReadLine().ToLower() != "y")
+{
+    Console.WriteLine("Checkout cancelled.");
+    continue;
+}
+❗ Problem:
+continue only affects current loop, not properly exiting checkout flow
+
+so i followed its advise and revised it from what it said
