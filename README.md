@@ -52,3 +52,5 @@ i noticed that i havent used much ai like before and commits everytime i remembe
 4/30/26 i still am missing the product search and category and stock reorder and check out mostly part 2.
 
 I asked the ai how to do search and as i skimmed to its code i realized it just uses .ToLower to search and just used for loop to search and bool to match. the .Contains part was taught by ai so that even if the spelling is incomplete it still can search as long as it matches some letter
+
+test commits

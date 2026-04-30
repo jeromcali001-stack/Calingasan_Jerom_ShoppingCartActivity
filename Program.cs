@@ -10,16 +10,16 @@ class Program
         CartItem[] cart = new CartItem[100];
         int cartCount = 0;
 
-        products[count++] = new Product { Id = 1, Name = "Keyboard", Price = 500 };
-        products[count++] = new Product { Id = 2, Name = "Mouse", Price = 300 };
-        products[count++] = new Product { Id = 3, Name = "Monitor", Price = 7000 };
+        products[count++] = new Product { Id = 1, Name = "Keyboard", Category = "Electronics", Price = 500 };
+        products[count++] = new Product { Id = 2, Name = "Mouse", Category = "Electronics", Price = 300 };
+        products[count++] = new Product { Id = 3, Name = "Monitor", Category = "Electronics", Price = 7000 };
 
 
     while (true)
     {
     Console.WriteLine("Welcome to the Cali-Store!");
     Console.WriteLine("How would you like to proceed?");
-    Console.WriteLine("1. Admin");
+    Console.WriteLine("1. Store Owner");
     Console.WriteLine("2. Customer");
     Console.Write("Choose: ");
 
@@ -34,7 +34,8 @@ class Program
             Console.WriteLine("3. Total Items");
             Console.WriteLine("4. Stock Check");
             Console.WriteLine("5. Deduct Stock");
-            Console.WriteLine("6. Exit");
+            Console.WriteLine("6. Search Products");
+            Console.WriteLine("7. Exit");
             Console.Write("Choose: ");
 
             string choice = Console.ReadLine();
@@ -52,10 +53,14 @@ class Program
                 double price;
                 double.TryParse(Console.ReadLine(), out price);
 
+                Console.Write("Enter Category: ");
+                string category = Console.ReadLine();
+
                 products[count++] = new Product
                 {
                     Id = id,
                     Name = name,
+                    Category = category,
                     Price = price
                 };
 
@@ -66,7 +71,7 @@ class Program
             {
                 for (int i = 0; i < count; i++)
                 {
-                    Console.WriteLine($"{products[i].Id} - {products[i].Name} - {products[i].Price} - Stock: {products[i].Stock}");
+                    Console.WriteLine($"{products[i].Id} - {products[i].Name} - {products[i].Category} - {products[i].Price} - Stock: {products[i].Stock}");
                 }
             }
 
@@ -148,10 +153,29 @@ class Program
             }
 
             
-
             else if (choice == "6")
+                    
             {
-                Console.WriteLine("Returning to main menu...");
+                Console.Write("Enter product name to search: ");
+                string search = Console.ReadLine().ToLower();
+                bool found = false;
+
+                for (int i = 0; i < count; i++)
+                {
+                    if (products[i].Name.ToLower().Contains(search))
+                    {
+                        Console.WriteLine($"{products[i].Id} - {products[i].Name} - PHP {products[i].Price} - Stock: {products[i].Stock}");
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                    Console.WriteLine("No product found.");
+            }
+                    
+            else if (choice == "7")
+            {
+                Console.WriteLine("Returning to main menu...\n");
                 break;
             }
 
@@ -174,7 +198,8 @@ class Program
                 Console.WriteLine("2. Add to Cart");
                 Console.WriteLine("3. Remove from Cart");
                 Console.WriteLine("4. Checkout");
-                Console.WriteLine("5. Back to Main Menu");
+                Console.WriteLine("5. Clear Cart");
+                Console.WriteLine("6. Back to Main Menu");
                 Console.Write("Choose: ");
 
                 string cartChoice = Console.ReadLine();
@@ -257,6 +282,10 @@ class Program
 
                 else if (cartChoice == "3")
                 {
+                    for (int i = 0; i < cartCount; i++)
+                    {
+                        Console.WriteLine($"{cart[i].Id} - {cart[i].Name} - {cart[i].Price} x{cart[i].Quantity} = {cart[i].SubTotal}");
+                    }
                     Console.Write("Enter Product ID to remove: ");
                     int id;
                     int.TryParse(Console.ReadLine(), out id);
@@ -309,6 +338,24 @@ class Program
                 }
 
                 else if (cartChoice == "5")
+                {
+                    for (int i = 0; i < cartCount; i++)
+                    {
+                        for (int j = 0; j < count; j++)
+                        {
+                            if (products[j].Id == cart[i].Id)
+                            {
+                                products[j].Stock += cart[i].Quantity;
+                                break;
+                            }
+                        }
+                    }
+
+                    cartCount = 0;
+                    Console.WriteLine("Cart cleared!");
+                }
+
+                else if (cartChoice == "6")
                 {
                     Console.WriteLine("Returning to main menu...");
                     break;

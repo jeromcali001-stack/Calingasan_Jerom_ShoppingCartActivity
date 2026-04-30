@@ -4,6 +4,7 @@ class Product
     public string Name;
     public double Price;
     public int Stock = 10;
+    public string Category;
 
     public void DisplayProduct()
     {
