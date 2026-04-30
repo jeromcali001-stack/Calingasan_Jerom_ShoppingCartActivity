@@ -148,3 +148,65 @@ so i revised my code again based on the ai suggested also addressed the out of s
 
 have an error with the date time and ai said simply to change the public date to datetime simple fix
 manual debugging and checking of validation i discovered that i didnt add the stock option when adding a product it defaults to 100 fixed it
+
+MAJOR REVISION ON Y/N AS IT ACCEPTS ANYTHING AS N I USED THIS TEMPLATE TO COVER THEM ALL
+
+Console.Write("Do you wish to check another product? (y/n): ");
+while (true)
+{
+    proceed = Console.ReadLine().ToLower();
+    if (proceed == "y" || proceed == "n")
+        break;
+    Console.WriteLine("Invalid input. Please enter Y or N only.");
+}
+if (proceed != "y")
+{
+    Console.WriteLine("Returning to main menu...\n");
+} 
+
+I DIDNT ADD Y/N TO EVERY CODE BLOCK AS IN SOME CASES IT IS JUST A 1 TYPE 1 RESULT TYPE OF CODE LIKE IN TOTAL ITEMS MENU 
+
+I ALSO FOUND OUT THAT IM MISSING THE UPDATE QUANTITY OPTION SO I ADDED IT OVERALL THE MOST TIME CONSUMING IS THE Y/N PART I USED AI FOR THAT TEMPLATE AS IT IS MUCH FASTER AND MORE PRACTICAL TO USE.
+
+I used ai to fix the int.TryParse as ai suggested this 
+Nothing is “wrong” with TryParse() itself — the issue is how you're using it.
+
+Your current code
+
+Example:
+
+int id;
+int.TryParse(Console.ReadLine(), out id);
+
+This works, but there’s a problem:
+
+If the user types:
+
+abc
+
+then:
+
+id = 0
+
+and your program continues like nothing happened.
+
+That can cause:
+
+wrong product search
+wrong deduction
+wrong cart update
+product not found confusion
+Better way
+
+Use the result of TryParse():
+
+int id;
+
+if (!int.TryParse(Console.ReadLine(), out id))
+{
+    Console.WriteLine("Invalid input! Please enter a number.");
+}
+
+This checks if conversion succeeded.
+
+so I used its template and replaced all my tryparse code.
