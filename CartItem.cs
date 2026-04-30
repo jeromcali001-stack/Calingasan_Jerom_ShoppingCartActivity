@@ -4,6 +4,5 @@ class CartItem
     public string Name;
     public double Price;
     public int Quantity;
-    public string Category;
     public double SubTotal;
 }
