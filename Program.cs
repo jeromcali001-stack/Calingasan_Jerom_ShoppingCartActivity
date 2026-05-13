@@ -1,4 +1,167 @@
 using System;
+using System.Collections.Generic;
+static class ProductHelper
+{
+    public static bool IdExists(Product[] products, int count, int id)
+    {
+        for (int i = 0; i < count; i++)
+            if (products[i].Id == id) return true;
+        return false;
+    }
+
+    public static bool NameExists(Product[] products, int count, string name)
+    {
+        for (int i = 0; i < count; i++)
+            if (products[i].Name.ToLower() == name.ToLower()) return true;
+        return false;
+    }
+
+    public static Product FindById(Product[] products, int count, int id)
+    {
+        for (int i = 0; i < count; i++)
+            if (products[i].Id == id) return products[i];
+        return null;
+    }
+
+    public static List<Product> SearchByName(Product[] products, int count, string search)
+    {
+        var results = new List<Product>();
+        for (int i = 0; i < count; i++)
+            if (products[i].Name.ToLower().Contains(search.ToLower()))
+                results.Add(products[i]);
+        return results;
+    }
+
+    public static List<Product> SearchByCategory(Product[] products, int count, string search)
+    {
+        var results = new List<Product>();
+        for (int i = 0; i < count; i++)
+            if (products[i].Category.ToLower().Contains(search.ToLower()))
+                results.Add(products[i]);
+        return results;
+    }
+
+    public static List<string> GetUniqueCategories(Product[] products, int count)
+    {
+        var categories = new List<string>();
+        for (int i = 0; i < count; i++)
+        {
+            string cat = products[i].Category;
+            if (!categories.Contains(cat))
+                categories.Add(cat);
+        }
+        return categories;
+    }
+
+    public static int GetTotalStock(Product[] products, int count)
+    {
+        int total = 0;
+        for (int i = 0; i < count; i++) total += products[i].Stock;
+        return total;
+    }
+
+    public static bool DeductStock(Product[] products, int count, int id, int qty)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (products[i].Id == id)
+            {
+                if (qty > 0 && qty <= products[i].Stock)
+                {
+                    products[i].Stock -= qty;
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static void ShowLowStockAlert(Product[] products, int count)
+    {
+        bool found = false;
+        for (int i = 0; i < count; i++)
+        {
+            if (products[i].Stock <= 5)
+            {
+                Console.WriteLine($"{products[i].Name} has only {products[i].Stock} stock(s) left.");
+                found = true;
+            }
+        }
+        if (!found) Console.WriteLine("No low stock products.");
+    }
+}
+
+static class CartHelper
+{
+    public static bool AddToCart(CartItem[] cart, ref int cartCount, Product[] products, int productCount, int id, int qty)
+    {
+        for (int i = 0; i < productCount; i++)
+        {
+            if (products[i].Id == id)
+            {
+                if (products[i].Stock >= qty && qty > 0)
+                {
+                    cart[cartCount++] = new CartItem
+                    {
+                        Id = products[i].Id,
+                        Name = products[i].Name,
+                        Price = products[i].Price,
+                        Quantity = qty,
+                        SubTotal = products[i].Price * qty
+                    };
+                    products[i].Stock -= qty;
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static bool RemoveFromCart(CartItem[] cart, ref int cartCount, Product[] products, int productCount, int id)
+    {
+        for (int i = 0; i < cartCount; i++)
+        {
+            if (cart[i].Id == id)
+            {
+                // Return stock
+                for (int j = 0; j < productCount; j++)
+                {
+                    if (products[j].Id == id)
+                    {
+                        products[j].Stock += cart[i].Quantity;
+                        break;
+                    }
+                }
+
+                // Shift cart
+                for (int j = i; j < cartCount - 1; j++)
+                    cart[j] = cart[j + 1];
+                cartCount--;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void ClearCart(CartItem[] cart, ref int cartCount, Product[] products, int productCount)
+    {
+        for (int i = 0; i < cartCount; i++)
+        {
+            for (int j = 0; j < productCount; j++)
+            {
+                if (products[j].Id == cart[i].Id)
+                {
+                    products[j].Stock += cart[i].Quantity;
+                    break;
+                }
+            }
+        }
+        cartCount = 0;
+    }
+}
+
 
 class Program
 {
@@ -14,35 +177,35 @@ class Program
         CartItem[] cart = new CartItem[100];
         int cartCount = 0;
 
+        
         products[count++] = new Product { Id = 1, Name = "Keyboard", Category = "Electronics", Price = 500 };
         products[count++] = new Product { Id = 2, Name = "Mouse", Category = "Electronics", Price = 300 };
         products[count++] = new Product { Id = 3, Name = "Monitor", Category = "Electronics", Price = 7000 };
-        
         products[count++] = new Product { Id = 4, Name = "Mousepad", Category = "Accessories", Price = 150 };
         products[count++] = new Product { Id = 5, Name = "USB Flash Drive 32GB", Category = "Accessories", Price = 350 };
         products[count++] = new Product { Id = 6, Name = "Headset", Category = "Electronics", Price = 1200 };
-
         products[count++] = new Product { Id = 7, Name = "Laptop Stand", Category = "Accessories", Price = 800 };
         products[count++] = new Product { Id = 8, Name = "External Hard Drive 1TB", Category = "Storage", Price = 2500 };
         products[count++] = new Product { Id = 9, Name = "Webcam HD", Category = "Electronics", Price = 900 };
         products[count++] = new Product { Id = 10, Name = "Mechanical Keyboard Switch Set", Category = "Accessories", Price = 600 };
 
+       
 
-    while (true)
-    {
-    Console.WriteLine("Welcome to the Cali-Store!");
-    Console.WriteLine("How would you like to proceed?");
-    Console.WriteLine("1. Store Owner");
-    Console.WriteLine("2. Customer");
-    Console.WriteLine("3. Exit");
-    Console.Write("Choose: ");
-
-    string choose = Console.ReadLine();
-
-    if (choose == "1")
-    {
         while (true)
         {
+            Console.WriteLine("Welcome to the Cali-Store!");
+            Console.WriteLine("How would you like to proceed?");
+            Console.WriteLine("1. Store Owner");
+            Console.WriteLine("2. Customer");
+            Console.WriteLine("3. Exit");
+            Console.Write("Choose: ");
+
+            string choose = Console.ReadLine();
+
+            if (choose == "1")
+            {
+                while (true)
+                {
             Console.WriteLine("\n1. Add Product");
             Console.WriteLine("2. View Products");
             Console.WriteLine("3. Total Items");
@@ -67,16 +230,7 @@ class Program
                     {
                         Console.WriteLine("Invalid input! Please enter a number.");
                     }
-                    bool idExists = false;
-
-                    for (int i = 0; i < count; i++)
-                    {
-                        if (products[i].Id == id)
-                        {
-                            idExists = true;
-                            break;
-                        }
-                    }
+                    bool idExists = ProductHelper.IdExists(products, count, id);
 
                     if (idExists)
                     {
@@ -91,16 +245,7 @@ class Program
                         Console.Write("Enter Name: ");
                         name = Console.ReadLine() ?? "";
 
-                        bool exists = false;
-
-                        for (int i = 0; i < count; i++)
-                        {
-                            if (products[i].Name.ToLower() == name.ToLower())
-                            {
-                                exists = true;
-                                break;
-                            }
-                        }
+                        bool exists = ProductHelper.NameExists(products, count, name);
 
                         if (!exists) break;
 
@@ -183,14 +328,7 @@ class Program
 
             else if (choice == "3")
             {
-                int totalItems = 0;
-
-                for (int i = 0; i < count; i++)
-                {
-                    totalItems += products[i].Stock;
-                }
-
-                Console.WriteLine("Total Items: " + totalItems);
+               Console.WriteLine("Total Items: " + ProductHelper.GetTotalStock(products, count));
             }
 
             else if (choice == "4")
@@ -329,17 +467,20 @@ class Program
                     string search = Console.ReadLine().ToLower();
                     bool found = false;
 
-                    for (int i = 0; i < count; i++)
-                    {
-                        if (products[i].Name.ToLower().Contains(search))
-                        {
-                            Console.WriteLine($"{products[i].Id} - {products[i].Name} - PHP {products[i].Price} - Stock: {products[i].Stock}");
-                            found = true;
-                        }
-                    }
+                List<Product> results = ProductHelper.SearchByName(products, count, search);
 
-                    if (!found)
-                        Console.WriteLine("No product found");
+                if (results.Count == 0)
+                {
+                    Console.WriteLine("No products found in that category.");
+                }
+                else
+                {
+                    foreach (Product p in results)
+                    {
+                        Console.WriteLine($"{p.Id} - {p.Name} - PHP {p.Price} - Stock: {p.Stock}");
+                    }
+                }
+
 
                         Console.Write("Do you wish to search another product? (y/n): ");
                         while (true)
@@ -471,153 +612,62 @@ class Program
 
                 else if (cartChoice == "2")
                 {
-                    string proceed;
+                    Console.Write("Enter Product ID: ");
+                    int id;
 
-                    do
+                    if (!int.TryParse(Console.ReadLine(), out id))
                     {
-                        for (int i = 0; i < count; i++)
-                        {
-                            Console.WriteLine($"{products[i].Id} - {products[i].Name} - {products[i].Price} - Stock: {products[i].Stock}");
-                        }
+                        Console.WriteLine("Invalid input!");
+                        continue;
+                    }
 
-                        Console.Write("Enter Product ID: ");
-                        int id;
-                        if (!int.TryParse(Console.ReadLine(), out id))
-                        {
-                            Console.WriteLine("Invalid input! Please enter a number.");
-                        }
+                    Console.Write("Enter Quantity: ");
+                    int qty;
 
-                        bool found = false;
+                    if (!int.TryParse(Console.ReadLine(), out qty))
+                    {
+                        Console.WriteLine("Invalid quantity!");
+                        continue;
+                    }
 
-                        for (int i = 0; i < count; i++)
-                        {
-                            if (products[i].Id == id)
-                            {
-                                found = true;
-                                if (products[i].Stock <= 0)
-                                {
-                                    Console.WriteLine("This product is OUT OF STOCK!");
-                                    break;
-                                }
-                                Console.Write("Enter Quantity: ");
-                                int qty;
-                                if (!int.TryParse(Console.ReadLine(), out qty))
-                                {
-                                    Console.WriteLine("Invalid input! Please enter a quantity.");
-                                }
+                    bool success = CartHelper.AddToCart(
+                        cart,
+                        ref cartCount,
+                        products,
+                        count,
+                        id,
+                        qty
+                    );
 
-                                if (qty <= 0)
-                                {
-                                    Console.WriteLine("Invalid amount");
-                                }
-                                else if (qty > products[i].Stock)
-                                {
-                                    Console.WriteLine("Not enough stock");
-                                }
-                                else
-                                {
-                                    cart[cartCount++] = new CartItem
-                                    {
-                                        Id = products[i].Id,
-                                        Name = products[i].Name,
-                                        Price = products[i].Price,
-                                        Quantity = qty,
-                                        SubTotal = products[i].Price * qty
-                                    };
-
-                                    products[i].Stock -= qty;
-                                    Console.WriteLine("Added to cart!");
-                                }
-
-                                break;
-                            }
-                        }
-
-                        if (!found)
-                            Console.WriteLine("Product not found");
-
-                        Console.Write("Do you wish to add another product? (y/n): ");
-                        while (true)
-                        {
-                            proceed = Console.ReadLine().ToLower();
-                            if (proceed == "y" || proceed == "n")
-                                break;
-                            Console.WriteLine("Invalid input. Please enter Y or N only.");
-                        }
-                        if (proceed != "y")
-                        {
-                            Console.WriteLine("Returning to main menu...\n");
-                        }
-                     } while (proceed == "y");
+                    if (success)
+                        Console.WriteLine("Added to cart!");
+                    else
+                        Console.WriteLine("Failed to add item.");
                 }
 
                 else if (cartChoice == "3")
                 {
-                    string proceed;
+                    Console.Write("Enter Product ID to remove: ");
 
-                    do
-                    {
-                        for (int i = 0; i < cartCount; i++)
-                        {
-                            Console.WriteLine($"{cart[i].Id} - {cart[i].Name} - {cart[i].Price} x{cart[i].Quantity} = {cart[i].SubTotal}");
-                        }
+                int id;
 
-                        Console.Write("Enter Product ID to remove: ");
-                        int id;
-                        if (!int.TryParse(Console.ReadLine(), out id))
-                        {
-                            Console.WriteLine("Invalid input! Please enter a number.");
-                        }
-
-                        bool found = false;
-
-                        for (int i = 0; i < cartCount; i++)
-                        {
-                            if (cart[i].Id == id)
-                            {
-                                found = true;
-
-                               
-                                for (int j = 0; j < count; j++)
-                                {
-                                    if (products[j].Id == id)
-                                    {
-                                        products[j].Stock += cart[i].Quantity;
-                                        break;
-                                    }
-                                }
-
-                               
-                                for (int j = i; j < cartCount - 1; j++)
-                                {
-                                    cart[j] = cart[j + 1];
-                                }
-
-                                cartCount--;
-
-                                Console.WriteLine("Removed from cart!");
-                                break;
-                            }
-                        }
-
-                        if (!found)
-                            Console.WriteLine("Item not found in cart");
-
-                        Console.Write("Do you wish to remove another product? (y/n): ");
-                        while (true)
-                        {
-                            proceed = Console.ReadLine().ToLower();
-                            if (proceed == "y" || proceed == "n")
-                                break;
-                            Console.WriteLine("Invalid input. Please enter Y or N only.");
-                        }
-                        if (proceed != "y")
-                        {
-                            Console.WriteLine("Returning to main menu...\n");
-                        }
-
-                    } while (proceed == "y");
+                if (!int.TryParse(Console.ReadLine(), out id))
+                {
+                    Console.WriteLine("Invalid input!");
+                    continue;
                 }
+                bool success = CartHelper.RemoveFromCart(
+                cart,
+                ref cartCount,
+                products,
+                count,
+                id);
+
+            if (success)
+                Console.WriteLine("Removed from cart!");
+            else
+                Console.WriteLine("Item not found.");
+    }
                 else if (cartChoice == "4")
                 {
                     if (cartCount == 0)
@@ -842,27 +892,8 @@ class Program
                 }
                else if (cartChoice == "6")
                 {
-                    if (cartCount == 0)
-                    {
-                        Console.WriteLine("Cart already empty.");
-                    }
-                    else
-                    {
-                        for (int i = 0; i < cartCount; i++)
-                        {
-                            for (int j = 0; j < count; j++)
-                            {
-                                if (products[j].Id == cart[i].Id)
-                                {
-                                    products[j].Stock += cart[i].Quantity;
-                                    break;
-                                }
-                            }
-                        }
-
-                        cartCount = 0;
-                        Console.WriteLine("Cart cleared!");
-                    }
+                    CartHelper.ClearCart(cart, ref cartCount, products, count);
+                    Console.WriteLine("Cart cleared!");
                 }
                 else if (cartChoice == "7")
                 {
@@ -872,41 +903,30 @@ class Program
                     {
                         Console.WriteLine("Available Categories:");
 
-                        for (int i = 0; i < count; i++)
-                        {
-                            bool alreadyPrinted = false;
+                        List<string> categories = ProductHelper.GetUniqueCategories(products, count);
 
-                            for (int j = 0; j < i; j++)
-                            {
-                                if (products[i].Category.ToLower() == products[j].Category.ToLower())
-                                {
-                                    alreadyPrinted = true;
-                                    break;
-                                }
-                            }
-
-                            if (!alreadyPrinted)
-                            {
-                                Console.WriteLine(products[i].Category);
-                            }
-                        }
+                    foreach (string c in categories)
+                    {
+                        Console.WriteLine(c);
+                    }
+                        
 
                         Console.Write("Enter category to search: ");
                         string search = Console.ReadLine().ToLower();
 
-                        bool found = false;
+                        List<Product> results = ProductHelper.SearchByCategory(products, count, search);
 
-                        for (int i = 0; i < count; i++)
+                        if (results.Count == 0)
                         {
-                            if (products[i].Category.ToLower().Contains(search))
+                            Console.WriteLine("No products found in that category.");
+                        }
+                        else
+                        {
+                            foreach (Product p in results)
                             {
-                                Console.WriteLine($"{products[i].Id} - {products[i].Name} - PHP {products[i].Price} - Stock: {products[i].Stock}");
-                                found = true;
+                                Console.WriteLine($"{p.Id} - {p.Name} - PHP {p.Price} - Stock: {p.Stock}");
                             }
                         }
-
-                        if (!found)
-                            Console.WriteLine("No products found in that category.");
 
                         Console.Write("Do you wish to search another category? (y/n): ");
                         while (true)
